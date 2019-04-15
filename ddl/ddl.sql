@@ -52,9 +52,10 @@ CREATE TABLE has_relationship (
 
 CREATE TABLE attribute (
     attribute_name VARCHAR2(256),
-    attrbiute_type VARCHAR2(100),
+    attribute_type VARCHAR2(100),
     parent_attribute VARCHAR2(256),
     derived_attribute VARCHAR2(256),
+    data_type           VARCHAR2(256) NOT NULL,
     CONSTRAINT attribute_name_pk PRIMARY KEY (attribute_name),
     CONSTRAINT attribute_attribute_fk FOREIGN KEY (parent_attribute) REFERENCES attribute (attribute_name) ON DELETE CASCADE,
     CONSTRAINT derived_attribute_fk FOREIGN KEY (derived_attribute) REFERENCES attribute (attribute_name) ON DELETE CASCADE
