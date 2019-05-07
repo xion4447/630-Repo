@@ -27,6 +27,9 @@ insert into relationship values('iswithin', 'region', 'store', '1', 'M');
 insert into relationship values('offers', 'store', 'product', '1', 'M');
 insert into relationship values('assignto', 'temphourly', 'store', 'M', '1');
 insert into relationship values('contains', 'display', 'product', '1', 'M');
+insert into relationship values('d1', 'employee', 'associate', null, null);
+insert into relationship values('d2', 'employee', 'temphourly', null, null);
+insert into relationship values('d3', 'temphourly', 'contractor', null, null);
 
 insert into attribute(attribute_name, attribute_type, data_type) values ('name', null, 'VARCHAR2');
 insert into attribute(attribute_name, attribute_type, parent_attribute, data_type) values ('fname', null, 'name', 'VARCHAR2');

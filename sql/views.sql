@@ -5,17 +5,20 @@ CREATE VIEW  All_Atts AS
 select attribute_name from attribute;
 
 CREATE VIEW  All_Keys AS
-select ac.table_name, acc.column_name
-from all_constraints ac
-join all_cons_columns  acc on ac.constraint_name = acc.constraint_name
-where ac.constraint_type = 'P' 
-order by ac.table_name;
+select e.entity_name, a.attribute_name
+from entity e
+join has_attrbiute ha on ha.entity_name = e.entity_name
+join attribute a on ha.attribute_name = a.attribute_name
+where a.attribute_type is null;
 
 CREATE VIEW  All_Rels AS
 select relationship_name from relationship;
 
 CREATE VIEW  EntAtt AS
-select entity_name, attribute_name from has_attrbiute;
+select entity_name, attribute_name from has_attrbiute
+union
+select entity_name, a.attribute_name from has_attrbiute ha
+join attribute a on a.parent_attribute = ha.attribute_name;
 
 CREATE VIEW  RelEnt AS
 select relationship_name, entity_name_1, entity_name_2 from relationship;
