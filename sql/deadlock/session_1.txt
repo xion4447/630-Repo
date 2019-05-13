@@ -1,0 +1,6 @@
+begin
+update test_new_table set table_name = 'test deadlock' where table_name = 'ICOL$';
+dbms_lock.sleep(5);
+update test_new_table set table_name = 'test deadlock' where table_name = 'COL$';
+end;
+/

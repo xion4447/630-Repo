@@ -1,0 +1,9 @@
+begin
+update test_new_table set table_name = 'test deadlock' where table_name = 'COL$';
+dbms_lock.sleep(5);
+update test_new_table set table_name = 'test deadlock' where table_name = 'ICOL$';
+end;
+/
+ERROR at line 1:
+ORA-00060: deadlock detected while waiting for resource
+ORA-06512: at line 4
