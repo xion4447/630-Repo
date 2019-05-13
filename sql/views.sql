@@ -41,6 +41,8 @@ where a.attribute_type = 'primary'
 group by e.entity_name;
 
 CREATE VIEW  KeyAttr AS
-select ae.attribute_name, ak.attribute_name as "attribute_key"
-from attribute ae
-join attribute ak on ae.attribute_name = ak.parent_attribute;
+select e.entity_name, a.attribute_name
+from entity e
+join has_attrbiute hs on hs.entity_name = e.entity_name
+join attribute a on hs.attribute_name = a.attribute_name
+where a.attribute_type = 'primary';
