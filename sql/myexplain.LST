@@ -1,0 +1,98 @@
+SQL> @c:\temp\utlxplan.sql
+
+Table created.
+
+SQL> analyze table TABLENAME compute statistics;
+analyze table TABLENAME compute statistics
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> analyze table entatt compute statistics;
+analyze table entatt compute statistics
+              *
+ERROR at line 1:
+ORA-01702: a view is not appropriate here 
+
+
+SQL> analyze table entity compute statistics;
+
+Table analyzed.
+
+SQL> analyze table attribute compute statistics;
+
+Table analyzed.
+
+SQL> explain plan for SELECT entatt.entity_name FROM entatt group by entity_name having count(attribute_name) = 3;
+
+Explained.
+
+SQL> @c:\temp\utlxpls.sql;
+
+PLAN_TABLE_OUTPUT                                                               
+--------------------------------------------------------------------------------
+Plan hash value: 1249810172                                                     
+                                                                                
+--------------------------------------------------------------------------------
+--------                                                                        
+                                                                                
+| Id  | Operation              | Name          | Rows  | Bytes | Cost (%CPU)| Ti
+me     |                                                                        
+                                                                                
+--------------------------------------------------------------------------------
+--------                                                                        
+                                                                                
+
+PLAN_TABLE_OUTPUT                                                               
+--------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT       |               |     2 |   520 |     7  (15)| 00
+:00:01 |                                                                        
+                                                                                
+|*  1 |  HASH GROUP BY         |               |     2 |   520 |     7  (15)| 00
+:00:01 |                                                                        
+                                                                                
+|   2 |   VIEW                 | ENTATT        |     2 |   520 |     6   (0)| 00
+:00:01 |                                                                        
+                                                                                
+|   3 |    SORT UNIQUE         |               |     2 |   528 |     6   (0)| 00
+:00:01 |                                                                        
+
+PLAN_TABLE_OUTPUT                                                               
+--------------------------------------------------------------------------------
+                                                                                
+|   4 |     UNION-ALL          |               |       |       |            |   
+       |                                                                        
+                                                                                
+|   5 |      TABLE ACCESS FULL | HAS_ATTRBIUTE |     1 |   260 |     2   (0)| 00
+:00:01 |                                                                        
+                                                                                
+|*  6 |      HASH JOIN         |               |     1 |   268 |     4   (0)| 00
+:00:01 |                                                                        
+                                                                                
+|   7 |       TABLE ACCESS FULL| HAS_ATTRBIUTE |     1 |   260 |     2   (0)| 00
+
+PLAN_TABLE_OUTPUT                                                               
+--------------------------------------------------------------------------------
+:00:01 |                                                                        
+                                                                                
+|*  8 |       TABLE ACCESS FULL| ATTRIBUTE     |     7 |    56 |     2   (0)| 00
+:00:01 |                                                                        
+                                                                                
+--------------------------------------------------------------------------------
+--------                                                                        
+                                                                                
+                                                                                
+Predicate Information (identified by operation id):                             
+---------------------------------------------------                             
+
+PLAN_TABLE_OUTPUT                                                               
+--------------------------------------------------------------------------------
+                                                                                
+   1 - filter(COUNT("ATTRIBUTE_NAME")=3)                                        
+   6 - access("A"."PARENT_ATTRIBUTE"="HA"."ATTRIBUTE_NAME")                     
+   8 - filter("A"."PARENT_ATTRIBUTE" IS NOT NULL)                               
+
+22 rows selected.
+
+SQL> spool off
